@@ -102,30 +102,45 @@ describe('Modal', function () {
 
   it('supports custom className', function() {
     var modal = renderModal({isOpen: true, className: 'myClass'});
-    equal(modal.portal.refs.content.className.contains('myClass'), true);
+    equal(modal.portal.refs.content.className.indexOf('myClass') !== -1, true);
     unmountModal();
   });
 
   it('supports overlayClassName', function () {
     var modal = renderModal({isOpen: true, overlayClassName: 'myOverlayClass'});
-    equal(modal.portal.refs.overlay.className.contains('myOverlayClass'), true);
+    equal(modal.portal.refs.overlay.className.indexOf('myOverlayClass') !== -1, true);
     unmountModal();
   });
 
   it('supports adding style to the modal contents', function () {
-    var modal = renderModal({isOpen: true, style: {width: '20px'}});
+    var modal = renderModal({isOpen: true, style: {content: {width: '20px'}}});
     equal(modal.portal.refs.content.style.width, '20px');
+  });
+
+  it('supports overridding style on the modal contents', function() {
+    var modal = renderModal({isOpen: true, style: {content: {position: 'static'}}});
+    equal(modal.portal.refs.content.style.position, 'static');
+  });
+
+  it('supports adding style on the modal overlay', function() {
+    var modal = renderModal({isOpen: true, style: {overlay: {width: '75px'}}});
+    equal(modal.portal.refs.overlay.style.width, '75px');
+  });
+
+  it('supports overridding style on the modal overlay', function() {
+    var modal = renderModal({isOpen: true, style: {overlay: {position: 'static'}}});
+    equal(modal.portal.refs.overlay.style.position, 'static');
   });
 
   it('adds class to body when open', function() {
     var modal = renderModal({isOpen: false});
-    equal(document.body.className.contains('ReactModal__Body--open'), false);
+    equal(document.body.className.indexOf('ReactModal__Body--open') !== -1, false);
 
-    modal = renderModal({isOpen: true});
-    equal(document.body.className.contains('ReactModal__Body--open'), true);
+    modal = renderModal({ isOpen: true});
+    equal(document.body.className.indexOf('ReactModal__Body--open')  !== -1, true);
 
     modal = renderModal({isOpen: false});
-    equal(document.body.className.contains('ReactModal__Body--open'), false);
+    equal(document.body.className.indexOf('ReactModal__Body--open')  !== -1, false);
     unmountModal();
   });
 
